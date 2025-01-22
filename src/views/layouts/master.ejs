@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+
+   <head>
+    <title> Hospital Feedback Management </title>
+
+        <% if (user) { %>
+            <%- include('head') %>
+        <% } else { %>
+            <%- include('login_head') %>
+        <% } %>
+     
+
+    
+
+   </head>
+
+   <body>
+        <!-- <div class="container-fluid page-body-wrapper"> -->
+            <% if(user) { %>
+                <%- include('header') %>
+                <div class="container-fluid page-body-wrapper">
+                <%- include('navbar') %>
+            <% } %>
+    
+            
+        
+
+
+
+        
