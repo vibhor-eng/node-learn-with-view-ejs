@@ -39,6 +39,7 @@ app.use((req, res, next) => {
 });
 
 import userRouter from './routes/user.router.js'
+import adminRouter from './routes/admin.router.js'
 
 //redirect to login when write home url
 app.get('/', (req, res) => {
@@ -47,6 +48,7 @@ app.get('/', (req, res) => {
 
 //routes declaration user is prefix here
 app.use("/user",userRouter)
+app.use("/admin",adminRouter)
 
  
 export { app }
