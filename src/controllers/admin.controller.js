@@ -58,7 +58,9 @@ const LoginPage = asyncHandler(async (req,res) => {
 })
 
 const HomePage = asyncHandler(async(req,res) => {
-    res.render('admin/dashboard');
+
+    const totalUsers = await User.countDocuments({ user_type: 'User' });
+    res.render('admin/dashboard', { users: totalUsers });
 })
 
 const Logout = asyncHandler(async(req,res) => {
@@ -70,10 +72,40 @@ const Logout = asyncHandler(async(req,res) => {
     });
 })
 
+const PatientList = asyncHandler(async(req,res) => {
+
+    try{
+
+        const PatinetDetails = await User.find({ user_type: 'User' });
+        res.render('admin/patient/list', { patients: PatinetDetails });
+
+
+    }catch(error){
+        res.render("admin/patient/list", {
+            errorMessage: error
+        });
+    }
+
+})
+
+const PatientQueryList = asyncHandler(async(req,res) => {
+
+    try{
+
+        res.render('admin/patient_query/list');
+
+    }catch(error){
+        res.render("admin/patient_query/list", {
+            errorMessage: error
+        });
+    }
+
+})
+
 const PatientResetPassword = asyncHandler(async(req,res) => {
 
 })
 
 export {
-    LoginPage,HomePage,Logout
+    LoginPage,HomePage,Logout,PatientList,PatientQueryList
 }
