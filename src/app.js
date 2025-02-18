@@ -46,6 +46,18 @@ app.get('/', (req, res) => {
   res.redirect('/user/login');  // Redirect to /new-route
 });
 
+// just to get urls in navbar
+// app.get('/admin/:id', (req, res) => {
+//   app.locals.fullUrl = req.originalUrl; // Or req.url
+//   // console.log(`full url ${fullUrl}`) 
+// });
+
+app.use((req, res, next) => {
+  res.locals.fullUrl = req.originalUrl;
+  res.locals.globalVar = 'This is a global variable set in middleware';
+  next();  // Pass the request to the next middleware/route handler
+});
+
 //routes declaration user is prefix here
 app.use("/user",userRouter)
 app.use("/admin",adminRouter)

@@ -66,8 +66,12 @@ const Logout = asyncHandler(async(req,res) => {
         if (err) {
           return res.redirect('/admin/home');
         }
-        res.redirect('/admin/auth/login');
+        res.redirect('/admin/login');
     });
+})
+
+const PatientResetPassword = asyncHandler(async(req,res) => {
+
 })
 
 export {

@@ -57,10 +57,10 @@ const RegisterPage = asyncHandler(async (req,res) => {
 
         try{
 
-            const {name,email,password,age,mobile,gender} = req.body
+            const {name,username,email,password,age,mobile,gender} = req.body
 
             // all parameter check once empty
-            if([name,email,password,age,mobile,gender].some((field) => 
+            if([name,email,username,password,age,mobile,gender].some((field) => 
                 field?.trim() === "")
             ){
                 res.render("register.ejs", {
@@ -69,17 +69,18 @@ const RegisterPage = asyncHandler(async (req,res) => {
             }
 
             const existedUser = await User.findOne({
-                $or: [{ mobile },{ email }] //check email or username
+                $or: [{ mobile },{ email },{ email }] //check email or username
             })
     
             if(existedUser){
                 res.render("register.ejs", {
-                    errorMessage: "User with email or mobile is already exist."
+                    errorMessage: "User with email, mobile or username is already exist."
                 });
             }
 
             const user = await User.create({
                 name, 
+                username,
                 email,
                 password,
                 age,

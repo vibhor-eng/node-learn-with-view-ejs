@@ -18,6 +18,12 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true
       },
+      username: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true
+      },
       age:{
         type:Number
       },
