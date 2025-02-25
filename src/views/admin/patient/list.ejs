@@ -21,7 +21,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      
+                      <% patients.forEach(function(item) { %>
+                        <tr>
+                          <td><%= item.email %></td>
+                          <td><%= item.name %></td>
+                          <td><%= item.mobile %></td>
+                          <td><label class="badge badge-success show-patient-details" data-patient = "<%= item.patient_id %>" data-email = "<%= item.email %>" data-name = "<%= item.name %>" data-age = "<%= item.age %>" data-mobile = "<%= item.mobile %>" data-gender = "<%= item.Gender %>" data-created = "<%= item.created_at %>">View</label>&nbsp;<a href = ""><label class="badge badge-success">Edit</label></a></td>
+                        </tr>
+                      <% }); %>
                     </tbody>
                   </table>
                 </div>
@@ -31,5 +38,12 @@
 
 
 </div>
+
+<script type="text/javascript">
+	// $('table').dataTable();
+
+new DataTable('#example');
+
+</script>
 
 <%- include('footer') %>
