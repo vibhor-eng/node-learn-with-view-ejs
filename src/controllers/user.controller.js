@@ -1,9 +1,11 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { encryptData,decryptData } from "../utils/helper.js";
 
 import { User } from "../models/user.model.js";
 
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs';
+import QRCode from 'qrcode'
 
 const LoginPage = asyncHandler(async (req,res) => {
 
@@ -114,7 +116,31 @@ const RegisterPage = asyncHandler(async (req,res) => {
 })
 
 const HomePage = asyncHandler(async(req,res) => {
-    res.render('home')
+
+    try{
+
+        const PatinetDetails = req.session.user._id+"+++"+req.session.user.name+"+++"+req.session.user.email+"+++"+req.session.user.age+"+++"+req.session.user.mobile;
+
+        const protocol = req.protocol; // 'http' or 'https'
+        const host = req.get('host');  // 'localhost:3000' or similar
+        const baseUrl = `${protocol}://${host}`;
+
+        const data = baseUrl+"/patient/feedback?details="+PatinetDetails;  // Data to encode in the QR code
+
+        
+
+        QRCode.toDataURL(data, (err, url) => {
+            if (err) throw err;
+
+            res.render('home', { url: url });
+        });
+
+    }catch(error){
+        // console.log(error)
+        res.render("home.ejs", {
+            errorMessage: error
+        });
+    }
 })
 
 const Logout = asyncHandler(async(req,res) => {

@@ -33,8 +33,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define a global variable for the header to check login status
 // jo login k baad set karte hai vo value yha aa jati hai aur kahi b access ho jaati hai
+//variable user me user details yhi se milti hai
+
+
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
+    
     next();
 });
 
