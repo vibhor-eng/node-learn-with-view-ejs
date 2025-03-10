@@ -6,6 +6,7 @@ import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs';
 import QRCode from 'qrcode'
+import url from 'url'
 
 const LoginPage = asyncHandler(async (req,res) => {
 
@@ -119,13 +120,13 @@ const HomePage = asyncHandler(async(req,res) => {
 
     try{
 
-        const PatinetDetails = req.session.user._id+"+++"+req.session.user.name+"+++"+req.session.user.email+"+++"+req.session.user.age+"+++"+req.session.user.mobile;
+        const PatinetDetails = "id="+req.session.user._id+"&name="+req.session.user.name+"&email="+req.session.user.email+"&age="+req.session.user.age+"&mobile="+req.session.user.mobile;
 
         const protocol = req.protocol; // 'http' or 'https'
         const host = req.get('host');  // 'localhost:3000' or similar
         const baseUrl = `${protocol}://${host}`;
 
-        const data = baseUrl+"/patient/feedback?details="+PatinetDetails;  // Data to encode in the QR code
+        const data = baseUrl+"/user/feedback?"+PatinetDetails;  // Data to encode in the QR code
 
         
 
@@ -154,8 +155,39 @@ const Logout = asyncHandler(async(req,res) => {
 
 })
 
+const Feedback = asyncHandler(async(req,res) => {
+
+    try{
+
+        if(req.method === 'POST'){
+        }
+
+        const completeUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+        const myUrl = new URL(completeUrl);
+
+        const searchParams = myUrl.searchParams;
+       
+        // console.log('Query String:', searchParams);
+
+        const id = searchParams.get('id');
+        const name = searchParams.get('name');
+        const email = searchParams.get('email');
+        const age = searchParams.get('age');
+        const mobile = searchParams.get('mobile');
+
+        res.render('patient/feedback', {id:id,name:name,email:email,age:age,mobile:mobile});
+
+    }catch(error){
+        // console.log(error)
+        res.render("feedback.ejs", {
+            errorMessage: error
+        });
+    }
+
+})
+
 
 
 export  {
-    LoginPage,RegisterPage,HomePage,Logout
+    LoginPage,RegisterPage,HomePage,Logout,Feedback
 }
