@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { LoginPage,RegisterPage, HomePage,Logout,Feedback } from "../controllers/user.controller.js";
+import { LoginPage,RegisterPage, HomePage,Logout,FeedbackForm } from "../controllers/user.controller.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
 
@@ -14,6 +14,6 @@ router.route("/register").post(RegisterPage)
 router.route("/home").get(authMiddleware,HomePage)
 // router.get('/logout', authController.logout);//we can write like this also
 router.route("/logout").get(authMiddleware,Logout)
-router.route("/feedback").get(Feedback)
-router.route("/feedback").post(Feedback)
+router.route("/feedback").get(FeedbackForm)
+router.route("/feedback").post(FeedbackForm)
 export default router

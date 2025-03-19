@@ -2,11 +2,13 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { encryptData,decryptData } from "../utils/helper.js";
 
 import { User } from "../models/user.model.js";
+import { Feedback } from "../models/feedback.model.js";
 
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs';
 import QRCode from 'qrcode'
 import url from 'url'
+import multer from "multer";
 
 const LoginPage = asyncHandler(async (req,res) => {
 
@@ -133,7 +135,7 @@ const HomePage = asyncHandler(async(req,res) => {
         QRCode.toDataURL(data, (err, url) => {
             if (err) throw err;
 
-            res.render('home', { url: url });
+            res.render('dashboard.ejs', { url: url });
         });
 
     }catch(error){
@@ -155,11 +157,45 @@ const Logout = asyncHandler(async(req,res) => {
 
 })
 
-const Feedback = asyncHandler(async(req,res) => {
+const FeedbackForm = asyncHandler(async(req,res) => {
 
     try{
 
         if(req.method === 'POST'){
+
+            try{
+            const {name, patient_id, email, age, mobile, message} = req.body
+
+            const feedback = await Feedback.create({
+                name, 
+                patient_id,
+                email,
+                age,
+                mobile,
+                message,
+            })
+
+            //check user is created
+            const CreatedFeedback = await Feedback.findById(feedback._id);
+
+            if(!CreatedFeedback){
+                res.render("feedback.ejs", {
+                    errorMessage: "Something went wrong when registering a user."
+                });
+            }
+    
+            res.render("feedback.ejs", {
+                successMessage: "Feedback registered."
+            });
+
+            }catch(error){
+                console.log(error)
+                res.render("feedback.ejs", {
+                    errorMessage: error
+                });
+            }
+          
+
         }
 
         const completeUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -174,8 +210,8 @@ const Feedback = asyncHandler(async(req,res) => {
         const email = searchParams.get('email');
         const age = searchParams.get('age');
         const mobile = searchParams.get('mobile');
-
-        res.render('patient/feedback', {id:id,name:name,email:email,age:age,mobile:mobile});
+        
+        res.render('feedback.ejs', {id:id,name:name,email:email,age:age,mobile:mobile});
 
     }catch(error){
         // console.log(error)
@@ -189,5 +225,5 @@ const Feedback = asyncHandler(async(req,res) => {
 
 
 export  {
-    LoginPage,RegisterPage,HomePage,Logout,Feedback
+    LoginPage,RegisterPage,HomePage,Logout,FeedbackForm
 }
