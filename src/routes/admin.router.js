@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { LoginPage,HomePage,Logout,PatientList,PatientQueryList } from "../controllers/admin.controller.js";
+import { LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList } from "../controllers/admin.controller.js";
 import { adminMiddleware } from "../middleware/adminMiddleware.js";
 
 const router = Router()
@@ -12,3 +12,4 @@ router.route("/home").get(adminMiddleware,HomePage)
 router.route("/logout").get(adminMiddleware,Logout)
 router.route("/patient-list").get(adminMiddleware,PatientList)
 router.route("/patient-queries").get(adminMiddleware,PatientQueryList)
+router.route("/query/list").get(adminMiddleware,queryList)

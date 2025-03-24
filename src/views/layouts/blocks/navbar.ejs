@@ -48,6 +48,20 @@
                     </ul>
                   </div>
                 </li>
+                <!-- Query -->
+                <li class="nav-item  <% if(urlParts[2] == 'query') {  'active'; } %>">
+                  <a class="nav-link collapsed" data-bs-toggle="collapse" href="#query" aria-expanded="<% if(urlParts[2] == 'query') {  'true'; } %>" aria-controls="forms">
+                    <span class="menu-title">Query</span>
+                    <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                  </a>
+                  <div class="collapse <% if(urlParts[2] == 'query') { 'show'; } %>" id="query" style="">
+                    <ul class="nav flex-column sub-menu">
+                      <li class="nav-item">
+                        <a  href = "/admin/query/list" class="nav-link <% if(urlParts[2] == 'query') { 'active'; } %>" href="">Query List</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
               <% } %>
              
     

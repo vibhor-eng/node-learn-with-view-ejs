@@ -1,5 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/user.model.js";
+import { QueryTypes } from "../models/query_types.model.js";
 
 const LoginPage = asyncHandler(async (req,res) => {
 
@@ -81,6 +82,7 @@ const PatientList = asyncHandler(async(req,res) => {
 
 
     }catch(error){
+
         res.render("admin/patient/list", {
             errorMessage: error
         });
@@ -102,10 +104,24 @@ const PatientQueryList = asyncHandler(async(req,res) => {
 
 })
 
+const queryList = asyncHandler(async(req,res) => {
+    try{
+
+
+        const query_list = await QueryTypes.find({ is_deleted: '0' });
+        res.render('admin/query/list', { query_list: query_list });
+
+    }catch(error){
+        res.render("admin/query/list", {
+            errorMessage: error
+        });
+    }
+})
+
 const PatientResetPassword = asyncHandler(async(req,res) => {
 
 })
 
 export {
-    LoginPage,HomePage,Logout,PatientList,PatientQueryList
+    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList
 }
