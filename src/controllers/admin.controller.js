@@ -118,10 +118,126 @@ const queryList = asyncHandler(async(req,res) => {
     }
 })
 
+const addQuery = asyncHandler(async(req,res) => {
+    try{
+
+        const {name} = req.body
+        const existDept = await QueryTypes.findOne({ name: name });
+
+        if(existDept){
+            res.json({
+                message: "This name already exist in db"
+            });
+        }
+
+        const queryTypes = await QueryTypes.create({
+            name
+        })
+
+        //check data is created
+        const Createddept = await QueryTypes.findById(queryTypes._id)
+
+        if(!Createddept){
+            res.json({
+                message: "Something went wrong to create a query",
+                status:false
+            });
+        }
+
+        
+        res.json({
+            message: "query has been created.",
+            status:true
+        });
+
+    }catch(error){
+        res.json({
+            message: error,
+            status:false
+        });
+    }
+})
+
+const deleteQuery = asyncHandler(async(req,res) => {
+
+    try{
+
+        const {id} = req.body
+        
+        const updateQuery = await QueryTypes.findByIdAndUpdate(
+            id,
+            {
+                //jo field hme set karna hai
+                $set:{
+                    is_deleted:true,
+                }
+            },
+            {new:true}//return updated document
+        )
+
+        if (updateQuery) {
+            res.json({
+                message: "deleted",
+                status:true
+            });
+        } else {
+            res.json({
+                message: "something wrong.",
+                status:false
+            });
+        }
+
+    }catch(error){
+        res.json({
+            message: "sddsd",
+            status:false
+        });
+    }
+
+})
+
+const updateQuery = asyncHandler(async(req,res) => {
+
+    try{
+
+        const {query_id,query_name} = req.body
+
+        const updateQuery = await QueryTypes.findByIdAndUpdate(
+            query_id,
+            {
+                //jo field hme set karna hai
+                $set:{
+                    name:query_name,
+                }
+            },
+            {new:true}//return updated document
+        )
+
+        if (updateQuery) {
+            res.json({
+                message: "updated",
+                status:true
+            });
+        } else {
+            res.json({
+                message: "something wrong.",
+                status:false
+            });
+        }
+
+    }catch(error){
+        res.json({  
+            message: "something went wrong.",
+            status:false
+        });
+    }
+
+})
+
 const PatientResetPassword = asyncHandler(async(req,res) => {
 
 })
 
 export {
-    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList
+    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery
 }
