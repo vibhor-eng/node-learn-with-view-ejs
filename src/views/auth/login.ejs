@@ -47,4 +47,34 @@
   <!-- page-body-wrapper ends -->
 </div>
 
+<script type="text/javascript">
+    
+  $(document).ready(function () {
+
+
+    $('#reset-password').validate({ // initialize the plugin
+        rules: {
+            email: {
+                required: true,
+                email: true,
+            },
+            password:{
+              required:true,
+              minlength:6,
+              maxlength:8,
+            },
+            confirm_password: {
+              required: true,
+              equalTo: "#password",  // Use the custom method for password confirmation
+            },
+        },
+        submitHandler: function(form) {
+          form.submit(); // Submit the form if valid
+        }
+    });
+
+});
+
+</script>
+
 <%- include('footer') %>

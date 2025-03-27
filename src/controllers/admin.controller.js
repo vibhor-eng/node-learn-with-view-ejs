@@ -236,8 +236,22 @@ const updateQuery = asyncHandler(async(req,res) => {
 
 const PatientResetPassword = asyncHandler(async(req,res) => {
 
+    if(req.method === 'POST'){
+
+        const {email,password} = req.body
+
+        const emailExist = await User.findOne({ email: email });
+        if(emailExist){
+            res.render("admin/query/patient-reset-password", {
+                errorMessage: "This email not exist in db."
+            });
+        }
+
+    }
+
+    res.render('admin/patient/reset-password');
 })
 
 export {
-    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery
+    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery,PatientResetPassword
 }
