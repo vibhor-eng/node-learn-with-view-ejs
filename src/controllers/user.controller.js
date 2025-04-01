@@ -135,11 +135,11 @@ const HomePage = asyncHandler(async(req,res) => {
         QRCode.toDataURL(data, (err, url) => {
             if (err) throw err;
 
-            res.render('dashboard.ejs', { url: url });
+            res.render('home.ejs', { url: url });
         });
 
     }catch(error){
-        // console.log(error)
+        console.log(error)
         res.render("home.ejs", {
             errorMessage: error
         });

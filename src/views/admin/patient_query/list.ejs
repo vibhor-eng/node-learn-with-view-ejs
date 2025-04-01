@@ -11,17 +11,46 @@
                   </p>
                   <table class="table table-hover" id = "example">
                     <thead>
-                      <tr>
+                      <tr role="row">
                         <!-- <th>Patient Id</th> -->
-                        <th>Email</th>
-                        <th>Name</th>
-                        <!-- <th>Age</th> -->
-                        <th>Mobile</th>
-                        <th>Action</th>
+                        <th role="columnheader">Image</th>
+                        <th role="columnheader">Name</th>
+                        <th role="columnheader">Email</th>
+                        <th role="columnheader">Mobile</th>
+                        <!-- <th>Message</th> -->
+                        <th role="columnheader">Department</th>
+                        <!-- <th>Admin Reply</th> -->
+                        <!-- <th>Reply</th> -->
+                        <th role="columnheader">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      
+                      <% 
+                        let i = 1;
+                        feedbacks.forEach(function(item) { 
+                      %>
+                        <tr>
+                            <% if(item.image) { %>
+                              <td>image</td>
+                            <% }else{ %>
+                            <td>-</td>
+                            <% } %>
+                              
+                          <td><%= item.name %></td>
+                          <td><%= item.email %></td>
+                          <td><%= item.mobile %></td>
+                          <td>
+                            <select class="form-select" name = "query_type_sel" class = "query_type_sel">
+                              <option value="">Please select</option>
+                              <% query_types.forEach(function(item1) { %>
+                                <option value="<%= item1.id %>"><%= item1.name %></option>
+                              <% }) %>
+                            </select>
+                            
+                          </td>
+                          <td><label class="badge badge-danger delete-query" data-id = "<%= item._id %>">Delete</label>&nbsp;<label class="badge badge-success update-query" data-id = "<%= item._id %>" data-name = "<%= item.name %>">Edit</label></td>
+                        </tr>
+                      <% i++; }); %>
                     </tbody>
                   </table>
                 </div>

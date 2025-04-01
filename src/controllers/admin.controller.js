@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/user.model.js";
 import { QueryTypes } from "../models/query_types.model.js";
+import { Feedback } from "../models/feedback.model.js";
 
 const LoginPage = asyncHandler(async (req,res) => {
 
@@ -94,7 +95,9 @@ const PatientQueryList = asyncHandler(async(req,res) => {
 
     try{
 
-        res.render('admin/patient_query/list');
+        const feedbacks = await Feedback.find({ is_deleted: '0' });
+        const query_types = await QueryTypes.find({ is_deleted: '0' });
+        res.render('admin/patient_query/list',{ feedbacks: feedbacks,query_types:query_types });
 
     }catch(error){
         res.render("admin/patient_query/list", {

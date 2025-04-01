@@ -11,6 +11,10 @@ const feedbackSchema = new Schema({
         type: String,
         required: true,
       },
+      query_type_id:{
+        type: Number,
+        default: null
+      },
       email: {
         type: String,
         required: true,
