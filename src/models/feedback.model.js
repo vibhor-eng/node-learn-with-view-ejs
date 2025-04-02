@@ -12,7 +12,7 @@ const feedbackSchema = new Schema({
         required: true,
       },
       query_type_id:{
-        type: Number,
+        type: String,
         default: null
       },
       email: {

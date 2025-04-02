@@ -6,7 +6,7 @@
      <div class="col-lg-12 grid-margin stretch-card table-responsive">
               <div class="card" style = "overflow-x:auto;">
                 <div class="card-body">
-                  <h4 class="card-title">Patient List</h4>
+                  <h4 class="card-title">Patient Queries</h4>
                   <!-- <p class="card-description"> Add class <code>.table-hover</code> -->
                   </p>
                   <table class="table table-hover" id = "example">
@@ -40,15 +40,19 @@
                           <td><%= item.email %></td>
                           <td><%= item.mobile %></td>
                           <td>
-                            <select class="form-select" name = "query_type_sel" class = "query_type_sel">
+                            <select class="form-select" name = "query_type_sel" class = "query_type_sel" onchange="updateDepartment('<%= item._id %>',this)">
                               <option value="">Please select</option>
                               <% query_types.forEach(function(item1) { %>
-                                <option value="<%= item1.id %>"><%= item1.name %></option>
+                                <option value="<%= item1.id %>"
+                                  <% if(item1._id == item.query_type_id){ %>
+                                  selected
+                                  <% } %>
+                                  ><%= item1.name %></option>
                               <% }) %>
                             </select>
                             
                           </td>
-                          <td><label class="badge badge-danger delete-query" data-id = "<%= item._id %>">Delete</label>&nbsp;<label class="badge badge-success update-query" data-id = "<%= item._id %>" data-name = "<%= item.name %>">Edit</label></td>
+                          <td role="cell"><label class="badge badge-danger give-reply" data-id = "<%= item._id %>" data-mob = "<%= item.mobile %>" data-msg = "<%= item.message %>">Pending</label></td>
                         </tr>
                       <% i++; }); %>
                     </tbody>
@@ -60,5 +64,78 @@
 
 
 </div>
+
+<script>
+  function updateDepartment(feedback_id,el){
+
+let dept_id = el.value
+
+$.ajax({
+       url: "/admin/update-dept",
+       type: "POST",
+       data:{
+        feedback_id:feedback_id,dept_id:dept_id
+       },
+       dataType: 'json',
+       beforeSend: function(){
+       },
+       success: function (data) {
+       
+          if(data.status == true){
+
+
+
+          swal({
+            title: 'Success',
+            text: data.msg,
+            type: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+            closeOnConfirm: true
+        },
+         function(isConfirm) {
+              if (isConfirm) {
+                 location.reload();
+              }
+         });
+             
+
+           
+
+          }else{
+          
+            swal({
+            title: 'Oops..',
+            text: 'Something went wrong!',
+            type: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+            closeOnConfirm: true
+        });
+
+          }
+       },
+       error: function (jqXHR, textStatus, errorThrown) {
+           if (jqXHR.status == 500) {
+
+
+      swal({
+            title: 'Oops..',
+            text: "Something went wromg.",
+            type: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+            closeOnConfirm: true
+        });
+
+              
+           } else {
+               console.log(jqXHR.responseText);
+           }
+       }
+   });
+
+}
+</script>
 
 <%- include('footer') %>

@@ -255,6 +255,46 @@ const PatientResetPassword = asyncHandler(async(req,res) => {
     res.render('admin/patient/reset-password');
 })
 
+const updateDept = asyncHandler(async(req,res) => {
+
+    try{
+
+        const {feedback_id,dept_id} = req.body
+
+        const updateQuery = await Feedback.findByIdAndUpdate(
+            {
+                _id:feedback_id
+            },
+            {
+                //jo field hme set karna hai
+                $set:{
+                    query_type_id:dept_id,
+                }
+            },
+            {new:true}//return updated document
+        )
+
+        if (updateQuery) {
+            res.json({
+                message: "updated",
+                status:true
+            });
+        } else {
+            res.json({
+                message: "something wrong.",
+                status:false
+            });
+        }
+
+    }catch(error){
+        res.json({  
+            message: error,
+            status:false
+        });
+    }
+
+})
+
 export {
-    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery,PatientResetPassword
+    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery,PatientResetPassword,updateDept
 }
