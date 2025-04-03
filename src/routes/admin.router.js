@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery,PatientResetPassword,updateDept } from "../controllers/admin.controller.js";
+import { LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery,PatientResetPassword,updateDept,reply } from "../controllers/admin.controller.js";
 import { adminMiddleware } from "../middleware/adminMiddleware.js";
 
 const router = Router()
@@ -19,3 +19,4 @@ router.route("/query/delete").post(adminMiddleware,deleteQuery)
 router.route("/patient-reset-password").get(adminMiddleware,PatientResetPassword)
 router.route("/patient-reset-password").post(adminMiddleware,PatientResetPassword)
 router.route("/update-dept").post(adminMiddleware,updateDept)
+router.route("/reply").post(adminMiddleware,reply)

@@ -295,6 +295,46 @@ const updateDept = asyncHandler(async(req,res) => {
 
 })
 
+const reply = asyncHandler(async(req,res) => {
+
+    try{
+
+        const {id,message,query_type_id} = req.body
+
+        const updateQuery = await Feedback.findByIdAndUpdate(
+            id,
+            {
+                //jo field hme set karna hai
+                $set:{
+                    message_reply_by_admin:message,
+                    is_reply:"yes",
+                    query_type_id:query_type_id
+                }
+            },
+            {new:true}//return updated document
+        )
+
+        if (updateQuery) {
+            res.json({
+                message: "updated",
+                status:true
+            });
+        } else {
+            res.json({
+                message: "something wrong.",
+                status:false
+            });
+        }
+
+    }catch(error){
+        res.json({  
+            message: error,
+            status:false
+        });
+    }
+
+})
+
 export {
-    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery,PatientResetPassword,updateDept
+    LoginPage,HomePage,Logout,PatientList,PatientQueryList,queryList,addQuery,deleteQuery,updateQuery,PatientResetPassword,updateDept,reply
 }

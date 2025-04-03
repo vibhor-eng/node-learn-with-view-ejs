@@ -33,6 +33,15 @@ const feedbackSchema = new Schema({
       image:{
         type:String
       },
+      is_reply: {
+        type: String,
+        enum: ['yes', 'no'],  // Enum restricts the role to these values
+        default:'no'
+      },
+      message_reply_by_admin:{
+        type: String,
+        default:null
+      },
       deleted_at:{
         type : Date, 
         default: null

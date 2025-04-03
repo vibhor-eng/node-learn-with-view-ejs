@@ -52,7 +52,11 @@
                             </select>
                             
                           </td>
-                          <td role="cell"><label class="badge badge-danger give-reply" data-id = "<%= item._id %>" data-mob = "<%= item.mobile %>" data-msg = "<%= item.message %>">Pending</label></td>
+                          <% if(item.is_reply == 'no') { %>
+                            <td role="cell"><label class="badge badge-danger give-reply" data-id = "<%= item._id %>" data-mob = "<%= item.mobile %>" data-msg = "<%= item.message %>">Pending</label></td>
+                          <% }else{ %>
+                            <td role="cell"><label class="badge badge-success">Replied</label></td>
+                          <% } %>
                         </tr>
                       <% i++; }); %>
                     </tbody>
@@ -66,7 +70,108 @@
 </div>
 
 <script>
-  function updateDepartment(feedback_id,el){
+
+$('.give-reply').click(function(){
+
+  $('#patient_reply').modal('show');
+  $('#id').val($(this).attr('data-id'));
+  $('#mob').val($(this).attr('data-mob'));
+  $("textarea#patient_msg").val($(this).attr('data-msg'));
+  $('#patient_msg').prop('disabled', true);
+
+ });
+
+ $('#reply_by_admin').click(function(e){
+
+let id = $('#id').val();
+let message = $('#message').val();
+let query_type_id = $('#query_type').val();
+let mob = $('#mob').val();
+
+if(message == ''){
+  alert("Please enter message");
+  return false;
+}
+
+if(query_type_id == ''){
+  alert("Please select query type");
+  return false;
+}
+
+
+$.ajax({
+     url: "/admin/reply",
+     type: "POST",
+     data:{
+      id:id,message:message,query_type_id:query_type_id,mob:mob
+     },
+     dataType: 'json',
+     beforeSend: function(){
+      // $('#invite-agent').attr('disabled','disabled');
+      // $('#invite-agent').hide();
+      // $('.fa-spin').css('font-size','24px');
+      // $('.fa-spin').show();
+     },
+     success: function (data) {
+      $('#patient_reply').modal('hide');
+        if(data.status == true){
+
+
+
+        swal({
+          title: 'Success',
+          text: 'Reply has been sent.',
+          type: 'success',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok',
+          closeOnConfirm: true
+      },
+       function(isConfirm) {
+            if (isConfirm) {
+               location.reload();
+            }
+       });
+           
+
+         
+
+        }else{
+        
+          swal({
+          title: 'Oops..',
+          text: 'Something went wrong!',
+          type: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok',
+          closeOnConfirm: true
+      });
+
+        }
+     },
+     error: function (jqXHR, textStatus, errorThrown) {
+      $('#patient_reply').modal('hide');
+         if (jqXHR.status == 500) {
+
+
+    swal({
+          title: 'Oops..',
+          text: "Something went wromg.",
+          type: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok',
+          closeOnConfirm: true
+      });
+
+            
+         } else {
+             console.log(jqXHR.responseText);
+         }
+     }
+ });
+
+});
+
+function updateDepartment(feedback_id,el){
 
 let dept_id = el.value
 
