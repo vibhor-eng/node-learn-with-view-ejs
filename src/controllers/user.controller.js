@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { encryptData,decryptData } from "../utils/helper.js";
+import { encryptData,decryptData,sendSMS } from "../utils/helper.js";
 
 import { User } from "../models/user.model.js";
 import { Feedback } from "../models/feedback.model.js";
@@ -9,6 +9,7 @@ import bcrypt from 'bcryptjs';
 import QRCode from 'qrcode'
 import url from 'url'
 import multer from "multer";
+
 
 const LoginPage = asyncHandler(async (req,res) => {
 
@@ -183,10 +184,17 @@ const FeedbackForm = asyncHandler(async(req,res) => {
                     errorMessage: "Something went wrong when registering a user."
                 });
             }
+
+            //semd message to the patient that your message has been sent to hospital management
+            sendSMS(message,mobile)
+
+            res.redirect(`${req.get('referer')}&success=Feedback registered.`);
+
     
-            res.render("feedback.ejs", {
-                successMessage: "Feedback registered."
-            });
+            // res.render("feedback.ejs", {
+            //     successMessage: "Feedback registered."
+            // });
+         
 
             }catch(error){
                 console.log(error)
@@ -210,8 +218,9 @@ const FeedbackForm = asyncHandler(async(req,res) => {
         const email = searchParams.get('email');
         const age = searchParams.get('age');
         const mobile = searchParams.get('mobile');
+        const successMessage = req.query.success;
         
-        res.render('feedback.ejs', {id:id,name:name,email:email,age:age,mobile:mobile});
+        res.render('feedback.ejs', {id:id,name:name,email:email,age:age,mobile:mobile,successMessage:successMessage});
 
     }catch(error){
         // console.log(error)
