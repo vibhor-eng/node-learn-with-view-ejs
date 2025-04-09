@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { LoginPage,RegisterPage, HomePage,Logout,FeedbackForm } from "../controllers/user.controller.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
+import { upload } from "../middleware/multer.middleware.js";
 
 
 

@@ -3,11 +3,12 @@ import { encryptData,decryptData,sendSMS } from "../utils/helper.js";
 
 import { User } from "../models/user.model.js";
 import { Feedback } from "../models/feedback.model.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
-import jwt from "jsonwebtoken";
-import bcrypt from 'bcryptjs';
+
 import QRCode from 'qrcode'
-import url from 'url'
+import path from "path"
+import fs from "fs"
 import multer from "multer";
 
 
@@ -73,6 +74,8 @@ const RegisterPage = asyncHandler(async (req,res) => {
                     errorMessage: "All fields are required."
                 });
             }
+
+           
 
             const existedUser = await User.findOne({
                 $or: [{ mobile },{ email },{ email }] //check email or username
@@ -165,7 +168,28 @@ const FeedbackForm = asyncHandler(async(req,res) => {
         if(req.method === 'POST'){
 
             try{
-            const {name, patient_id, email, age, mobile, message} = req.body
+
+                console.log(req.file);
+            const {avatar, name, patient_id, email, age, mobile, message} = req.body
+
+             /*******Image upload code **********/
+            //get path of image file
+            // const avatarLocalPath = req.files?.avatar[0]?.path;
+            // console.log(`avatarLocalPath ${JSON.stringify(req.body)}`);
+            // in case cover image not upload comment below line
+            // const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+            // if(!avatarLocalPath){
+            //     res.render("feedback.ejs", {
+            //         errorMessage: "Avatar is required."
+            //     });
+            // }
+
+            // image upload on cloudinary
+            // const avatar = await uploadOnCloudinary(avatarLocalPath)
+            // console.log(`Hello avatar ${avatar}`);
+
+            /*********end image upload code */
 
             const feedback = await Feedback.create({
                 name, 
@@ -186,7 +210,7 @@ const FeedbackForm = asyncHandler(async(req,res) => {
             }
 
             //semd message to the patient that your message has been sent to hospital management
-            sendSMS(message,mobile)
+            // 
 
             res.redirect(`${req.get('referer')}&success=Feedback registered.`);
 

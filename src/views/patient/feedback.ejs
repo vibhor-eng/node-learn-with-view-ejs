@@ -17,13 +17,13 @@
                <img src="/assets/images/logo.png" style = "width:75px;">
            </div>
            
-       <form class="forms-sample" id = "feedback-form" action = "/user/feedback" method = "post">
+       <form  action = "/user/feedback" method = "post" enctype="multipart/form-data">
 
            <div class="form-group">
                <div class = "row">
                    <div class = "col-md-6">
                        <label>Upload Image</label>
-                       <input type="file" id="imageUpload" class="form-control" name = "feedback_img" accept="image/*">
+                       <input type="file" class="form-control" name = "avatar" accept="image/*">
                    </div>
                    <div class = "col-md-6">
                        <label for="exampleInputPassword4">Name</label>
@@ -89,28 +89,6 @@
             }
         });
 
-    });
-
-    $(document).ready( function() {
-         // Get the input element and the preview image element
-        const imageUpload = document.getElementById('imageUpload');
-        // const imagePreview = document.getElementById('imagePreview');
-
-        // Event listener to handle the image upload
-        imageUpload.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-
-            const filename = file.name;
-
-            const extension = filename.split('.').pop().toLowerCase(); 
-
-            if(extension != 'jpg' && extension == 'jpeg' && extension == 'png' && extension == 'gif'){
-            
-                alert("Please upload only images.")
-                $('#imageUpload').val('');
-                return false;
-            }
-        });     
     });
 
 </script>
