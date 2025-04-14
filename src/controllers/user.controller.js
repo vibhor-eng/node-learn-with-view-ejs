@@ -7,9 +7,6 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 import QRCode from 'qrcode'
-import path from "path"
-import fs from "fs"
-import multer from "multer";
 
 
 const LoginPage = asyncHandler(async (req,res) => {
@@ -169,7 +166,7 @@ const FeedbackForm = asyncHandler(async(req,res) => {
 
             try{
 
-                console.log(req.file);
+                console.log("dfdf"+req.file);
             const {avatar, name, patient_id, email, age, mobile, message} = req.body
 
              /*******Image upload code **********/
