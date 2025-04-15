@@ -1,3 +1,5 @@
+// this code is just for upload the image on local folder in middleware folder
+
 import fs from "fs"
 import multer from "multer";
 import path from "path"

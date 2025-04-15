@@ -166,8 +166,11 @@ const FeedbackForm = asyncHandler(async(req,res) => {
 
             try{
 
-                console.log("dfdf"+req.file);
-            const {avatar, name, patient_id, email, age, mobile, message} = req.body
+                
+            const {avatar,name, patient_id, email, age, mobile, message} = req.body
+
+            const avatarLocalPath = req.file.path;
+            console.log("dfdf"+avatarLocalPath);
 
              /*******Image upload code **********/
             //get path of image file

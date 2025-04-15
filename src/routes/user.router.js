@@ -17,11 +17,6 @@ router.route("/home").get(authMiddleware,HomePage)
 router.route("/logout").get(authMiddleware,Logout)
 router.route("/feedback").get(FeedbackForm)
 router.route("/feedback").post(//this is middleware upload
-    upload.fields([
-    {
-        name:"avatar",
-        maxCount:1
-    }
-    ]), //upload kaafi cheez leta hai but multiple file upload ka skte hai to field lete hai
+    upload.single('avatar'), //upload kaafi cheez leta hai but multiple file upload ka skte hai to field lete hai
     FeedbackForm)
 export default router
