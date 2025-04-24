@@ -167,31 +167,30 @@ const FeedbackForm = asyncHandler(async(req,res) => {
             try{
 
                 
-            const {avatar,name, patient_id, email, age, mobile, message} = req.body
+            const {name, patient_id, email, age, mobile, message} = req.body
 
-            const avatarLocalPath = req.file.path;
-            console.log("dfdf"+avatarLocalPath);
+            
 
              /*******Image upload code **********/
             //get path of image file
-            // const avatarLocalPath = req.files?.avatar[0]?.path;
-            // console.log(`avatarLocalPath ${JSON.stringify(req.body)}`);
-            // in case cover image not upload comment below line
-            // const coverImageLocalPath = req.files?.coverImage[0]?.path
+            const avatarLocalPath = req.file.path;
 
-            // if(!avatarLocalPath){
-            //     res.render("feedback.ejs", {
-            //         errorMessage: "Avatar is required."
-            //     });
-            // }
+            if(!avatarLocalPath){
+                res.render("feedback.ejs", {
+                    errorMessage: "Avatar is required."
+                });
+            }
 
             // image upload on cloudinary
-            // const avatar = await uploadOnCloudinary(avatarLocalPath)
-            // console.log(`Hello avatar ${avatar}`);
+            const avatar = await uploadOnCloudinary(avatarLocalPath)
+            console.log(`Hello avatar ${avatar}`);
+
+            const image = avatarLocalPath
 
             /*********end image upload code */
 
             const feedback = await Feedback.create({
+                image,
                 name, 
                 patient_id,
                 email,

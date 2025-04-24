@@ -29,6 +29,7 @@ const __dirname = path.dirname(__filename); // get the name of the directory
 app.set('views', [path.join(__dirname, 'views'),path.join(__dirname, 'views/auth'),path.join(__dirname, 'views/layouts'),path.join(__dirname, 'views/layouts/blocks'),path.join(__dirname, 'views/patient')]);
 
 // get images/css/js from public folder
+app.use(express.static("public"))
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Define a global variable for the header to check login status
