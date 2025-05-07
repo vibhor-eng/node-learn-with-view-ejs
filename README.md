@@ -8,3 +8,5 @@ Series Link: https://www.youtube.com/watch?v=fFHyqhmnVfs&list=PLu71SKxNbfoBGh_8p
 npm install to get node_modules folder
 
 npm init to create the node project
+
+npm i express to install express framework
