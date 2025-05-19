@@ -6,7 +6,9 @@ import session from "express-session";
 
 const app = express();
 
+// To parse JSON bodies
 app.use(express.json());
+// To parse URL-encoded bodies (e.g., from HTML forms)
 app.use(express.urlencoded({ extended: true }));
 
 // load session
